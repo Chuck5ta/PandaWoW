@@ -1,8 +1,14 @@
+This is a copy of getmangos' Four server, and will be used for educational purposes with the MoP server database, PandaWoWDB.
+This server emulator is not functional and not likely to ever be.
+
+Original repo:
+
+
 MaNGOS Four [![Build Status](https://travis-ci.org/mangosfour/server.png)](https://travis-ci.org/mangosfour/server)
 ===========
 *MaNGOS Four* is a full featured server for [World of Warcraft][2], in its Mists of Pandaria
-version supporting clients from the [patch 5.4.1][50] branch, specifically patch
-5.4.1.17538
+version supporting clients from the [patch 5.4.8][50] branch, specifically patch
+5.4.1.18414
 
 World of Warcraft, and all World of Warcraft or Warcraft art, images, and lore are
 copyrighted by [Blizzard Entertainment, Inc.][1].
