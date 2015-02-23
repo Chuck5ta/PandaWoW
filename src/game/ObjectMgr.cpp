@@ -9925,65 +9925,6 @@ bool FindCreatureData::operator()(CreatureDataPair const& dataPair)
     return false;
 }
 
-
-void ObjectMgr::LoadPhaseDefinitions()
-{
-    for (PhaseDefinitionStore::iterator itr = _PhaseDefinitionStore.begin(); itr != _PhaseDefinitionStore.end(); ++itr)
-    {
-        for (PhaseDefinitionContainer::iterator itr2 = itr->second.begin(); itr2 != itr->second.end(); ++itr2)
-            delete *itr2;
-    }
-
-    _PhaseDefinitionStore.clear();
-
-    //                                                0       1      2          3        4               5      6
-    QueryResult* result = WorldDatabase.Query("SELECT zoneId, entry, phasemask, phaseId, terrainswapmap, flags, condition_id FROM `phase_definitions` ORDER BY `entry` ASC");
-
-    if (!result)
-    {
-        sLog.outString(">> Loaded 0 phasing definitions. DB table `phase_definitions` is empty.");
-        return;
-    }
-
-    uint32 count = 0;
-    do
-    {
-        Field* fields = result->Fetch();
-
-        PhaseDefinition* phaseDefinition = new PhaseDefinition();
-
-        phaseDefinition->zoneId                = fields[0].GetUInt32();
-        phaseDefinition->entry                 = fields[1].GetUInt32();
-        phaseDefinition->phasemask             = fields[2].GetUInt32();
-        phaseDefinition->phaseId               = fields[3].GetUInt32();
-        phaseDefinition->terrainswapmap        = fields[4].GetUInt32();
-        phaseDefinition->flags                 = fields[5].GetUInt32();
-        phaseDefinition->conditionId           = fields[6].GetUInt16();
-
-        // Checks
-        if ((phaseDefinition->flags & PHASE_FLAG_OVERWRITE_EXISTING) && (phaseDefinition->flags & PHASE_FLAG_NEGATE_PHASE))
-        {
-            sLog.outError("Flags defined in phase_definitions in zoneId %d and entry %u does contain PHASE_FLAG_OVERWRITE_EXISTING and PHASE_FLAG_NEGATE_PHASE. Setting flags to PHASE_FLAG_OVERWRITE_EXISTING", phaseDefinition->zoneId, phaseDefinition->entry);
-            phaseDefinition->flags &= ~PHASE_FLAG_NEGATE_PHASE;
-        }
-
-        if (!sConditionStorage.LookupEntry<PlayerCondition>(phaseDefinition->conditionId))
-        {
-            sLog.outError("Condition id  defined in phase_definitions in zoneId %d and entry %u does not exists. Skipping condition.", phaseDefinition->zoneId, phaseDefinition->entry);
-            phaseDefinition->conditionId = 0;
-        }
-
-        _PhaseDefinitionStore[phaseDefinition->zoneId].push_back(phaseDefinition);
-
-        ++count;
-    }
-    while (result->NextRow());
-
-    delete result;
-
-    sLog.outString(">> Loaded %u phasing definitions.", count);
-}
-
 CreatureDataPair const* FindCreatureData::GetResult() const
 {
     if (i_spawnedData)
