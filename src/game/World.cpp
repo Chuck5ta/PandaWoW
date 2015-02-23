@@ -1143,9 +1143,6 @@ void World::SetInitialWorldSettings()
     sLog.outString("Loading Phase definitions...");
     sObjectMgr.LoadPhaseDefinitions();
 
-    sLog.outString("Loading Spell Phase Dbc Info...");
-    sObjectMgr.LoadSpellPhaseInfo();
-
     sLog.outString("Creating map persistent states for non-instanceable maps...");     // must be after PackInstances(), LoadCreatures(), sPoolMgr.LoadFromDB(), sGameEventMgr.LoadFromDB();
     sMapPersistentStateMgr.InitWorldMaps();
 

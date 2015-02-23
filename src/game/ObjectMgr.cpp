@@ -9984,59 +9984,6 @@ void ObjectMgr::LoadPhaseDefinitions()
     sLog.outString(">> Loaded %u phasing definitions.", count);
 }
 
-void ObjectMgr::LoadSpellPhaseInfo()
-{
-    for (SpellPhaseStore::iterator itr = _SpellPhaseStore.begin(); itr != _SpellPhaseStore.end(); ++itr)
-        delete itr->second;
-
-    _SpellPhaseStore.clear();
-
-    //                                                0   1          2
-    QueryResult* result = WorldDatabase.Query("SELECT id, phasemask, terrainswapmap FROM `spell_phase`");
-
-    if (!result)
-    {
-        sLog.outString(">> Loaded 0 spell dbc infos. DB table `spell_phase` is empty.");
-        return;
-    }
-
-    uint32 count = 0;
-    do
-    {
-        Field* fields = result->Fetch();
-
-        SpellPhaseInfo* spellPhaseInfo = new SpellPhaseInfo();
-        spellPhaseInfo->spellId = fields[0].GetUInt32();
-
-        SpellEntry const* spell = sSpellStore.LookupEntry(spellPhaseInfo->spellId);
-        if (!spell)
-        {
-            sLog.outError("Spell %u defined in `spell_phase` does not exists, skipped.", spellPhaseInfo->spellId);
-            delete spellPhaseInfo;
-            continue;
-        }
-
-        if (!IsSpellHaveAura(spell, SPELL_AURA_PHASE) && !IsSpellHaveAura(spell, SPELL_AURA_PHASE_2))
-        {
-            sLog.outError("Spell %u defined in `spell_phase` does not have aura effect type SPELL_AURA_PHASE or SPELL_AURA_PHASE_2, useless value.", spellPhaseInfo->spellId);
-            delete spellPhaseInfo;
-            continue;
-        }
-
-        spellPhaseInfo->phasemask              = fields[1].GetUInt32();
-        spellPhaseInfo->terrainswapmap         = fields[2].GetUInt32();
-
-        _SpellPhaseStore[spellPhaseInfo->spellId] = spellPhaseInfo;
-
-        ++count;
-    }
-    while (result->NextRow());
-
-    delete result;
-
-    sLog.outString(">> Loaded %u spell phase dbc infos.", count);
-}
-
 CreatureDataPair const* FindCreatureData::GetResult() const
 {
     if (i_spawnedData)
