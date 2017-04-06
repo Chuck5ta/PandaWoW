@@ -477,7 +477,7 @@ void LoadDBCStores(const std::string& dataPath)
             continue;
 
         MANGOS_ASSERT(entry->classId < MAX_CLASSES && "MAX_CLASSES not updated");
-        MANGOS_ASSERT(entry->power < MAX_POWERS && "MAX_POWERS not updated");
+//        MANGOS_ASSERT(entry->power < MAX_POWERS && "MAX_POWERS not updated");
 
         uint32 index = 0;
 
@@ -487,7 +487,7 @@ void LoadDBCStores(const std::string& dataPath)
                 ++index;
         }
 
-        MANGOS_ASSERT(index < MAX_STORED_POWERS && "MAX_STORED_POWERS not updated");
+//        MANGOS_ASSERT(index < MAX_STORED_POWERS && "MAX_STORED_POWERS not updated");
 
         sChrClassXPowerTypesStore[entry->classId][entry->power] = index;
         sChrClassXPowerIndexStore[entry->classId][index] = entry->power;
@@ -618,6 +618,7 @@ void LoadDBCStores(const std::string& dataPath)
         }
     }
 
+	/*
     for(uint32 i = 1; i < sSpellEffectStore.GetNumRows(); ++i)
     {
         if (SpellEffectEntry const *spellEffect = sSpellEffectStore.LookupEntry(i))
@@ -637,6 +638,7 @@ void LoadDBCStores(const std::string& dataPath)
             sSpellEffectMap[spellEffect->EffectSpellId].effects[spellEffect->EffectIndex] = spellEffect;
         }
     }
+	*/
 
     LoadDBC(availableDbcLocales,bar,bad_dbc_files,sSpellEquippedItemsStore,  dbcPath,"SpellEquippedItems.dbc");
     LoadDBC(availableDbcLocales,bar,bad_dbc_files,sSpellInterruptsStore,     dbcPath,"SpellInterrupts.dbc");
@@ -990,8 +992,8 @@ ContentLevels GetContentLevelsForMapAndZone(uint32 mapId, uint32 zoneId)
     if (!mapEntry)
         return CONTENT_1_60;
 
-    if (mapEntry->rootPhaseMap != -1)
-        mapId = mapEntry->rootPhaseMap;
+//    if (mapEntry->rootPhaseMap != -1)
+//        mapId = mapEntry->rootPhaseMap;
 
     switch (mapId)
     {

@@ -1295,8 +1295,10 @@ void World::SetInitialWorldSettings()
     sLog.outString("Loading GameObjects for quests...");
     sObjectMgr.LoadGameObjectForQuests();
 
-    sLog.outString("Loading BattleMasters...");
+    sLog.outString("Loading BattleMasters...");  // stuck here
     sBattleGroundMgr.LoadBattleMastersEntry();
+
+	sLog.outString("MADE IT HERE????");
 
     sLog.outString("Loading BattleGround event indexes...");
     sBattleGroundMgr.LoadBattleEventIndexes();
