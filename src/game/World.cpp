@@ -1295,7 +1295,7 @@ void World::SetInitialWorldSettings()
     sLog.outString("Loading GameObjects for quests...");
     sObjectMgr.LoadGameObjectForQuests();
 
-    sLog.outString("Loading BattleMasters...");  // stuck here
+    sLog.outString("Loading BattleMasters...");
     sBattleGroundMgr.LoadBattleMastersEntry();
 
 	sLog.outString("MADE IT HERE????");
@@ -1402,7 +1402,7 @@ void World::SetInitialWorldSettings()
 
     ///- Initialize Battlegrounds
     sLog.outString("Starting BattleGround System");
-    sBattleGroundMgr.CreateInitialBattleGrounds();
+    sBattleGroundMgr.CreateInitialBattleGrounds(); // FAULTY
 
     ///- Initialize Outdoor PvP
     sLog.outString("Starting Outdoor PvP System");
